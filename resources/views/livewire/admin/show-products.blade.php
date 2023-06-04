@@ -1,7 +1,7 @@
 <div>
     <x-slot name="header">
         <div class="flex items-center">
-            <h2 class="font-semibold text-xl text-gray-600 leading-tight">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Lista de productos
             </h2>
 

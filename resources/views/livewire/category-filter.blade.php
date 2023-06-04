@@ -5,7 +5,7 @@
         </div>
     </div>
 
-    
+
     <div class="grid grid-cols-5 gap-6">
         <aside>
             <h2 class="font-semibold text-center mb-2">Generos</h2>
@@ -13,8 +13,7 @@
                 @foreach ($category->subcategories as $subcategory)
                     <li class="py-2 text-sm">
                         <a class="cursor-pointer hover:text-orange-500 capitalize {{ $genero == $subcategory->name ? 'text-orange-500 font-semibold' : '' }}"
-                            wire:click="$set('genero','{{$subcategory->name}}')"
-                            href="#">{{ $subcategory->name }}
+                            wire:click="$set('genero','{{ $subcategory->name }}')" href="#">{{ $subcategory->name }}
                         </a>
                     </li>
                 @endforeach
@@ -27,7 +26,7 @@
 
         <div class="col-span-4">
             <ul class="grid grid-cols-4 gap-6">
-                @foreach ($products as $product)
+                @forelse ($products as $product)
                     <li class="bg-white rounded-lg shadow">
                         <article>
                             <figure>
@@ -46,7 +45,16 @@
                             </div>
                         </article>
                     </li>
-                @endforeach
+                @empty
+                    <li class="col-span-4">
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+                            role="alert">
+                            <strong class="font-bold">Upps!</strong>
+                            <span class="block sm:inline">Parece que no hay ningun videojuego</span>
+                            
+                        </div>
+                    </li>
+                @endforelse
             </ul>
             <div class="mt-4">
                 {{ $products->links() }}

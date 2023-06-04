@@ -22,7 +22,7 @@
             <form action="{{ route('admin.products.files', $product) }}" method="POST" class="dropzone"
                 id="my-awesome-dropzone"></form>
         </div>
-    
+        
         @if ($product->images->count())
             <section class="bg-white shadow-xl rounded-lg p-6 mb-4">
                 <h1 class="text-2xl text-center font-semibold mb-2">Imagenes del producto</h1>
@@ -39,7 +39,10 @@
                 </ul>
             </section>
         @endif
-    
+
+        @livewire('admin.status-product', ['product' => $product], key('status-product-'. $product->id))
+        
+
         <div class="bg-white shadow-xl rounded-lg p-6">
             <div class="grid grid-cols-2 gap-6 mb-4">
                 <div>
@@ -74,19 +77,11 @@
                 <x-input-error for="product.name" />
             </div>
     
-            {{-- Slug --}}
-            <div class="mb-4">
-                <x-label value="Slug" />
-                <x-input type="text" disabled wire:model="slug" class="w-full bg-gray-200"
-                    placeholder="Ingrese el slug del producto" />
-    
-                <x-input-error for="slug" />
-            </div>
-    
             {{-- Description --}}
             <div class="mb-4">
                 <x-label value="Descripcion" />
                 <textarea class="w-full form-control" wire:model="product.description" rows="4"></textarea>
+                <x-input-error for="product.description" />
             </div>
     
             <div class="grid grid-cols-2 gap-6 mb-4">

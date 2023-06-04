@@ -8,7 +8,6 @@ use App\Models\Product;
 use App\Models\Subcategory;
 use Livewire\Component;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class EditProduct extends Component
 {
@@ -16,66 +15,60 @@ class EditProduct extends Component
     public $product, $categories, $subcategories, $slug;
     public $category_id;
 
-    protected $rules =[
+    protected $rules = [
         'category_id' => 'required',
         'product.subcategory_id' => 'required',
         'product.name' => 'required',
-        'slug' => 'required|unique:products,slug',
         'product.description' => 'required',
-        'product.price' => 'required',
-        'product.quantity' => 'numeric',
+        'product.price' => 'required|numeric|min:1',
+        'product.quantity' => 'required|numeric|min:1',
     ];
 
     protected $listeners = ['refreshProduct', 'delete'];
 
-    public function mount(Product $product){
+    public function mount(Product $product)
+    {
         $this->product = $product;
 
         $this->categories = Category::all();
         $this->category_id = $product->subcategory->category->id;
         $this->subcategories = Subcategory::where('category_id', $this->category_id)->get();
-        $this->slug = $this->product->slug;
     }
 
-    public function refreshProduct(){
+    public function refreshProduct()
+    {
         $this->product = $this->product->fresh();
     }
 
-    public function updatedProductName($value){
-        $this->product->slug = Str::slug($value);
-    }
-
-    public function updatedCategoryId($value){
-        $this->subcategories = Subcategory::where('category_id',$value)->get();
+    public function updatedCategoryId($value)
+    {
+        $this->subcategories = Subcategory::where('category_id', $value)->get();
 
         // $this->reset('subcategory_id');
         $this->product->subcategory_id = "";
     }
 
-    public function save(){
+    public function save()
+    {
         $rules = $this->rules;
-
-        $rules['slug'] = 'required|unique:products,slug,' . $this->product->id;
-
 
         $this->validate($rules);
 
-        $this->product->slug = $this->slug;
         $this->product->save();
 
         $this->emit('saved');
-
     }
 
-    public function deleteImage(Image $image){
+    public function deleteImage(Image $image)
+    {
         Storage::delete([$image->url]);
         $image->delete();
 
         $this->product = $this->product->fresh();
-
     }
 
-    public function delete(){
+    public function delete()
+    {
         $images = $this->product->images;
 
         foreach ($images as $image) {

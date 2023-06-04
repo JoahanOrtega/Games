@@ -1,16 +1,24 @@
 <div wire:init="loadPosts">
     @if (count($products))
         <div class="glider-contain">
-            <ul class="glider-{{$category->id}}">
+            <ul class="glider-{{ $category->id }}">
                 @foreach ($products as $product)
                     <li class="bg-white rounded-lg shadow {{ $loop->last ? '' : 'mr-4' }}">
                         <article>
                             <figure>
-                                <img class="h-48 w-56 object-cover object-center" src="{{ Storage::url($product->images->first()->url) }}" alt="">
+
+                                @if ($product->images->count())
+                                    <img class="h-48 w-56 object-cover object-center"
+                                        src="{{ Storage::url($product->images->first()->url) }}" alt="">
+                                @else
+                                    <img class="h-48 w-56 object-cover object-center"
+                                        src="https://images.pexels.com/photos/16450166/pexels-photo-16450166/free-photo-of-animal-mascota-mono-pelo.jpeg">
+                                @endif
+
                             </figure>
                             <div class="py-4 px-6">
                                 <h1 class="text-lg font-semibold">
-                                    <a href = "{{ route('products.show', $product) }}">
+                                    <a href="{{ route('products.show', $product) }}">
                                         {{ Str::limit($product->name, 20) }}
                                     </a>
                                 </h1>

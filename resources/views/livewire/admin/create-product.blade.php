@@ -8,7 +8,7 @@
             {{-- Categoria --}}
             <x-label value="Categorias" />
             <select class="w-full form-control" wire:model="category_id">
-                <option selected disabled>Seleccione una categoria</option>
+                <option value="" selected disabled>Seleccione una categoria</option>
                 @foreach ($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
@@ -36,17 +36,11 @@
         <x-input-error for="name"/>
     </div>
 
-    {{-- Slug --}}
-    <div class="mb-4">
-        <x-label value="Slug" />
-        <x-input type="text" disabled class="w-full bg-gray-200" wire:model="slug" placeholder="Slug de producto" />
-        <x-input-error for="slug"/>
-    </div>
-
     {{-- Description --}}
     <div class="mb-4">
         <x-label value="Descripcion" />
         <textarea class="w-full form-control" wire:model="description" rows="4"></textarea>
+        <x-input-error for="description"/>
     </div>
 
     <div class="grid grid-cols-2 gap-6 mb-4">

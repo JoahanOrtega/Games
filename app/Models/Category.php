@@ -10,7 +10,7 @@ class Category extends Model
     use HasFactory;
 
     //permitir asignacion masiva
-    protected $fillable = ['name','slug','image','icon'];
+    protected $fillable = ['name','image'];
 
     //Relacion entre 1 a muchos
     public function subcategories(){
